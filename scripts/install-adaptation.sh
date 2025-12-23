@@ -76,9 +76,10 @@ if [ -n "${adaptation_packages}" ]; then
 	# Download using apt-get download
 	adaptation_download_target="${tmpdir}/_adaptation"
 	mkdir -p "${adaptation_download_target}"
+	chown -Rv _apt:root ${tmpdir}
+	chmod -Rv 700  ${tmpdir}
 	(cd "${adaptation_download_target}" ; apt-get download ${adaptation_packages})
-	chown -Rv _apt:root ${adaptation_download_target}
-	chmod -Rv 700 ${adaptation_download_target}
+
 
 	for package in ${adaptation_packages}; do
 		# TODO: Move package extraction to a function?
