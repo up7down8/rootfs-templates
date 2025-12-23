@@ -45,6 +45,14 @@ cleanup() {
 	[ -e "${tmpdir}" ] && rm -rf "${tmpdir}"
 }
 
+# --- 新增内容：强制修复权限问题 ---
+# 确保 /tmp 权限正确
+chmod 1777 /tmp
+# 强制 APT 不使用沙盒用户 (_apt)，直接以 root 运行
+mkdir -p /etc/apt/apt.conf.d/
+echo 'APT::Sandbox::User "root";' > /etc/apt/apt.conf.d/99sandbox
+# ------------------------------
+
 tmpdir="$(mktemp -d)"
 trap cleanup EXIT
 
