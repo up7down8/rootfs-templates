@@ -130,7 +130,11 @@ info "Updating package list"
 	update
 
 info "Installing packages"
+chmod -R 777 "${tmpdir}"
 
+# 打印一下，确认包是不是真的在那
+adaList=`find "${tmpdir}" -type f -name "*deb" -print`
+info $adaList
 /usr/bin/apt-get \
 	--option "dir::etc=${apt_config_dir}" \
 	--option "Debug::NoLocking=1" \
