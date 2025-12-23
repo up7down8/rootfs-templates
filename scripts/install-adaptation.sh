@@ -45,16 +45,8 @@ cleanup() {
 	[ -e "${tmpdir}" ] && rm -rf "${tmpdir}"
 }
 
-# --- 更加彻底的修复方案 ---
-# 1. 确保全局配置存在
-mkdir -p /etc/apt/apt.conf.d/
-echo 'APT::Sandbox::User "root";' > /etc/apt/apt.conf.d/99sandbox
-chmod 1777 /tmp
-
-# 2. 定义一个通用的 apt-get 别名或者参数变量
-# 强制让 apt 不使用沙盒，并忽略权限检查
-APT_OPTS="-o APT::Sandbox::User=root"
-# ------------------------------
+chown -Rv _apt:root /var/cache/apt/archives/partial/
+chmod -Rv 700 /var/cache/apt/archives/partial/
 
 tmpdir="$(mktemp -d)"
 trap cleanup EXIT
