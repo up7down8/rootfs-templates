@@ -45,8 +45,7 @@ cleanup() {
 	[ -e "${tmpdir}" ] && rm -rf "${tmpdir}"
 }
 
-chown -Rv _apt:root /var/cache/apt/archives/partial/
-chmod -Rv 700 /var/cache/apt/archives/partial/
+
 
 tmpdir="$(mktemp -d)"
 trap cleanup EXIT
@@ -78,6 +77,8 @@ if [ -n "${adaptation_packages}" ]; then
 	adaptation_download_target="${tmpdir}/_adaptation"
 	mkdir -p "${adaptation_download_target}"
 	(cd "${adaptation_download_target}" ; apt-get download ${adaptation_packages})
+	chown -Rv _apt:root ${adaptation_download_target}
+	chmod -Rv 700 ${adaptation_download_target}
 
 	for package in ${adaptation_packages}; do
 		# TODO: Move package extraction to a function?
