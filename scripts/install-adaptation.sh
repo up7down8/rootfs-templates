@@ -133,7 +133,8 @@ info "Installing packages"
 chmod -R 777 "${tmpdir}"
 
 # 打印一下，确认包是不是真的在那
-adaList=`find "${tmpdir}" -type f -name "*deb" -print`
+info "Get files from ${tmpdir}"
+adaList=`find "${tmpdir}" -type f -print`
 info $adaList
 /usr/bin/apt-get \
 	--option "dir::etc=${apt_config_dir}" \
